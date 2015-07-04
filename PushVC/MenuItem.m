@@ -36,6 +36,7 @@
         if ([self.iconView.layer animationForKey:TAP_ANIMATION_KEY] == nil) {
             [self.iconView.layer addAnimation:[self tapAnimation] forKey:TAP_ANIMATION_KEY];
 
+            [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
             self.inAnimating = YES;
             
         } else {
@@ -48,6 +49,7 @@
 
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
     
+    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     self.inAnimating = NO;
     
     [super tapped];

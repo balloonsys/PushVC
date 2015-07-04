@@ -8,8 +8,9 @@
 
 #import "ViewController.h"
 #import "MenuItem.h"
+#import "NavController.h"
 
-@interface ViewController ()
+@interface ViewController () <UIGestureRecognizerDelegate>
 
 @property (nonatomic, strong) MenuItem *greenItem;
 @property (nonatomic, strong) MenuItem *purpleItem;
@@ -45,6 +46,7 @@
             
             [weakSelf.navigationController pushViewController:greeVC animated:YES];
         };
+        _greenItem.tapper.delegate = self;
     }
     
     return _greenItem;
@@ -68,9 +70,22 @@
             
             [weakSelf.navigationController pushViewController:purpleVC animated:YES];
         };
+        _purpleItem.tapper.delegate = self;
     }
     
     return _purpleItem;
+}
+
+#pragma mark - UIGestureRecognizerDelegate Methods
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)recogniser shouldReceiveTouch:(UITouch *)touch {
+    
+    if ([self.navigationController isKindOfClass:[NavController class]]) {
+        NavController *nav = (NavController *)self.navigationController;
+        return !nav.inTransition;
+    }
+    
+    return YES;
 }
 
 @end
