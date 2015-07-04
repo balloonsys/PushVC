@@ -23,6 +23,16 @@
     return self;
 }
 
+- (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    if (self.inTransition) {
+        NSLog(@"Ignore push request when top page is still animating");
+        return;
+    }
+    
+    [super pushViewController:viewController animated:animated];
+}
+
 #pragma mark - UINavigationControllerDelegate Methods
 
 - (void)navigationController:(UINavigationController *)navigationController
